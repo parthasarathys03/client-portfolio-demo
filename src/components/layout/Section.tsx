@@ -6,6 +6,7 @@ interface SectionProps extends ComponentPropsWithoutRef<"section"> {
   id: string;
   variant?: "base" | "surface";
   containerSize?: ContainerSize;
+  containerClassName?: string;
   children: ReactNode;
 }
 
@@ -13,6 +14,7 @@ export function Section({
   id,
   variant = "base",
   containerSize = "xl",
+  containerClassName,
   className,
   children,
   ...props
@@ -20,10 +22,12 @@ export function Section({
   return (
     <section
       id={id}
-      className={cn("py-24 lg:py-32", variant === "surface" && "bg-surface", className)}
+      className={cn("py-18 lg:py-24", variant === "surface" && "bg-surface", className)}
       {...props}
     >
-      <Container size={containerSize}>{children}</Container>
+      <Container size={containerSize} className={containerClassName}>
+        {children}
+      </Container>
     </section>
   );
 }

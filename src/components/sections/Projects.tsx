@@ -1,76 +1,101 @@
+import { ExternalLink } from "lucide-react";
 import { Section } from "@/components/layout/Section";
 import { projectsContent, type Project } from "@/content/projects";
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectRow({ project, featured }: { project: Project; featured: boolean }) {
+  const meta = [project.techStack?.join(" · "), project.organization]
+    .filter(Boolean)
+    .join(" — ");
+
   return (
-    <div className="flex flex-col gap-4 rounded-lg border border-border p-8">
-      <h3 className="text-xl font-semibold leading-[1.25] text-foreground md:text-2xl">
-        {project.title}
-      </h3>
+    <li className="grid grid-cols-1 gap-6 border-t border-border py-10 first:pt-0 lg:grid-cols-[100px_1fr_200px_28px] lg:gap-12">
+      <div className="flex flex-row gap-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground lg:flex-col lg:gap-1">
+        {project.year && <span>{project.year}</span>}
+        {project.category && <span>{project.category}</span>}
+      </div>
 
-      {(project.role || project.organization) && (
-        <p className="text-sm text-muted-foreground">
-          {[project.role, project.organization].filter(Boolean).join(" · ")}
-        </p>
-      )}
+      <div className="flex flex-col gap-3">
+        <h3
+          className={
+            featured
+              ? "font-heading text-3xl font-light leading-[1.1] tracking-[-0.02em] text-foreground md:text-4xl"
+              : "font-heading text-2xl font-light leading-[1.15] tracking-[-0.01em] text-foreground"
+          }
+        >
+          {project.title}
+        </h3>
 
-      {project.description && (
-        <p className="max-w-[70ch] text-base leading-[1.6] text-muted-foreground">
-          {project.description}
-        </p>
-      )}
+        {project.description && (
+          <p className="max-w-[65ch] text-[15px] leading-[1.6] text-muted-foreground">
+            {project.description}
+          </p>
+        )}
 
-      {project.outcome && (
-        <p className="text-base leading-[1.6] text-foreground">{project.outcome}</p>
-      )}
+        {project.technologies && project.technologies.length > 0 && (
+          <ul className="flex flex-wrap gap-2 pt-1">
+            {project.technologies.map((technology) => (
+              <li
+                key={technology}
+                className="rounded-sm border border-border px-3 py-1 text-sm text-foreground"
+              >
+                {technology}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-      {project.duration && (
-        <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
-          {project.duration}
-        </p>
-      )}
+      <div className="flex flex-col gap-1 lg:items-end lg:text-right">
+        {meta && (
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            {meta}
+          </span>
+        )}
+        {project.duration && (
+          <span className="text-sm text-muted-foreground">{project.duration}</span>
+        )}
+      </div>
 
-      {project.technologies && project.technologies.length > 0 && (
-        <ul className="flex flex-wrap gap-2">
-          {project.technologies.map((technology) => (
-            <li
-              key={technology}
-              className="rounded-sm border border-border px-3 py-1 text-sm text-foreground"
-            >
-              {technology}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <div className="flex lg:items-start lg:justify-end">
+        <ExternalLink
+          className="h-4 w-4 text-muted-foreground/40"
+          aria-hidden
+          data-placeholder="non-functional"
+        />
+      </div>
+    </li>
   );
 }
 
 export function Projects() {
   return (
     <Section id="projects" aria-label="Featured Projects" containerSize="2xl">
-      <div className="flex flex-col gap-16">
-        <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight md:text-[36px]">
+      <div className="flex flex-col">
+        <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+          <span className="h-px w-8 bg-border" aria-hidden />
+          04 — Projects
+        </div>
+
+        <h2 className="mt-8 font-heading text-[48px] font-light leading-[1.05] tracking-[-0.02em] text-foreground md:text-[56px]">
           Featured Projects
         </h2>
 
-        {projectsContent.length > 0 ? (
-          <div className="flex flex-col gap-8">
-            {projectsContent.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
-        ) : (
-          <div className="flex min-h-[360px] flex-col items-center justify-center gap-2 rounded-lg border border-border p-20 text-center">
-            <p className="text-lg font-semibold leading-[1.25] text-foreground">
-              Projects coming soon
-            </p>
-            <p className="max-w-[50ch] text-sm leading-[1.6] text-muted-foreground">
-              Detailed case studies are in progress and will be published here.
-            </p>
-          </div>
-        )}
+        <p className="mt-6 max-w-[60ch] text-[15px] leading-[1.6] text-muted-foreground">
+          Selected engineering work — published as detailed write-ups become available.
+        </p>
       </div>
+
+      {projectsContent.length > 0 ? (
+        <ol className="mt-12 flex flex-col">
+          {projectsContent.map((project, index) => (
+            <ProjectRow key={project.title} project={project} featured={index === 0} />
+          ))}
+        </ol>
+      ) : (
+        <p className="mt-12 border-t border-border pt-10 text-[15px] italic leading-[1.6] text-muted-foreground">
+          Additional projects will be published soon.
+        </p>
+      )}
     </Section>
   );
 }

@@ -6,7 +6,7 @@ const maxWidths = {
   md: "max-w-[768px]",
   lg: "max-w-[1024px]",
   xl: "max-w-[1280px]",
-  "2xl": "max-w-[1440px]",
+  "2xl": "max-w-[1600px]",
 } as const;
 
 export type ContainerSize = keyof typeof maxWidths;
@@ -26,7 +26,7 @@ export function Container({
 }: ContainerProps) {
   return (
     <Component
-      className={cn("mx-auto w-full px-6 md:px-12 lg:px-16", maxWidths[size], className)}
+      className={cn("mx-auto w-full px-2 md:px-4 lg:px-5", maxWidths[size], className)}
       {...props}
     >
       {children}

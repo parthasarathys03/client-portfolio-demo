@@ -1,82 +1,115 @@
+import { Award, ExternalLink } from "lucide-react";
 import { Section } from "@/components/layout/Section";
-import { cn } from "@/lib/utils";
 import { certificationsContent, type Certification } from "@/content/certifications";
 
-function CertificationCard({ certification }: { certification: Certification }) {
+function CertificationRow({ certification }: { certification: Certification }) {
+  const meta = [
+    certification.credentialId && `ID ${certification.credentialId}`,
+    certification.skills && certification.skills.length > 0 && certification.skills.join(" · "),
+  ]
+    .filter(Boolean)
+    .join(" — ");
+
   return (
-    <div className="flex h-full flex-col gap-3 rounded-lg border border-border p-6">
-      {certification.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={certification.image}
-          alt={certification.title}
-          className="w-full rounded-md border border-border"
-        />
-      )}
+    <li className="grid grid-cols-1 gap-6 border-t border-border py-10 first:pt-0 lg:grid-cols-[160px_1fr_160px] lg:gap-12">
+      <div className="flex flex-row items-center gap-3 lg:flex-col lg:items-start lg:gap-2">
+        {certification.issueDate && (
+          <span className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+            {certification.issueDate}
+          </span>
+        )}
+        {certification.issuer && (
+          <span className="text-sm text-muted-foreground">{certification.issuer}</span>
+        )}
+        {certification.issueDate && (
+          <span className="inline-flex w-fit items-center rounded-full border border-border px-2.5 py-0.5 text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+            Certified
+          </span>
+        )}
+      </div>
 
-      <h3 className="text-xl font-semibold leading-[1.25] text-foreground md:text-2xl">
-        {certification.title}
-      </h3>
+      <div className="flex flex-col gap-3">
+        <h3 className="font-heading text-2xl font-light leading-[1.15] tracking-[-0.01em] text-foreground md:text-3xl">
+          {certification.title}
+        </h3>
 
-      {certification.issuer && (
-        <p className="text-sm text-muted-foreground">{certification.issuer}</p>
-      )}
+        {certification.description && (
+          <p className="max-w-[65ch] text-[15px] leading-[1.6] text-muted-foreground">
+            {certification.description}
+          </p>
+        )}
 
-      {certification.issueDate && (
-        <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
-          {certification.issueDate}
-        </p>
-      )}
+        {meta && (
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            {meta}
+          </span>
+        )}
+      </div>
 
-      {certification.credentialUrl && (
-        <a
-          href={certification.credentialUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-accent underline-offset-4 hover:underline"
-        >
-          View credential
-        </a>
-      )}
-    </div>
+      <div className="flex flex-row items-center justify-between gap-4 lg:flex-col lg:items-end lg:justify-start lg:gap-4">
+        {certification.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={certification.image}
+            alt=""
+            aria-hidden
+            className="h-12 w-12 rounded-full border border-border object-cover"
+          />
+        ) : (
+          <span
+            aria-hidden
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-border"
+          >
+            <Award className="h-5 w-5 text-muted-foreground/40" />
+          </span>
+        )}
+
+        {certification.credentialUrl && (
+          <a
+            href={certification.credentialUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View credential — ${certification.title}`}
+            className="inline-flex items-center gap-1.5 rounded-sm text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            View Credential
+            <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+          </a>
+        )}
+      </div>
+    </li>
   );
 }
 
 export function Certifications() {
-  const isSparse = certificationsContent.length > 0 && certificationsContent.length < 3;
-
   return (
     <Section id="certifications" aria-label="Certifications" variant="surface" containerSize="2xl">
-      <div className="flex flex-col gap-16">
-        <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight md:text-[36px]">
+      <div className="flex flex-col">
+        <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+          <span className="h-px w-8 bg-border" aria-hidden />
+          05 — Certifications
+        </div>
+
+        <h2 className="mt-8 font-heading text-[48px] font-light leading-[1.05] tracking-[-0.02em] text-foreground md:text-[56px]">
           Certifications
         </h2>
 
-        {certificationsContent.length > 0 ? (
-          <div
-            className={cn(
-              isSparse
-                ? "flex flex-wrap justify-center gap-6"
-                : "grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3",
-            )}
-          >
-            {certificationsContent.map((certification) => (
-              <div key={certification.title} className={cn(isSparse && "w-full max-w-sm")}>
-                <CertificationCard certification={certification} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="flex min-h-[360px] flex-col items-center justify-center gap-2 rounded-lg border border-border p-20 text-center">
-            <p className="text-lg font-semibold leading-[1.25] text-foreground">
-              Certifications coming soon
-            </p>
-            <p className="max-w-[50ch] text-sm leading-[1.6] text-muted-foreground">
-              Verified credentials will be published here.
-            </p>
-          </div>
-        )}
+        <p className="mt-6 max-w-[60ch] text-[15px] leading-[1.6] text-muted-foreground">
+          Verified credentials, reverse-chronological.
+        </p>
       </div>
+
+      {certificationsContent.length > 0 ? (
+        <ol className="mt-12 flex flex-col">
+          {certificationsContent.map((certification) => (
+            <CertificationRow key={certification.title} certification={certification} />
+          ))}
+        </ol>
+      ) : (
+        <p className="mt-12 border-t border-border pt-10 text-[15px] italic leading-[1.6] text-muted-foreground">
+          Additional credentials will be published soon.
+        </p>
+      )}
     </Section>
   );
 }

@@ -4,6 +4,12 @@ export interface Certification {
   issueDate?: string;
   credentialUrl?: string;
   image?: string;
+  /** Short 1-2 line summary for the editorial row's center column. */
+  description?: string;
+  /** Credential/verification ID, shown in the metadata row when present. */
+  credentialId?: string;
+  /** Skills covered, shown in the metadata row when present. */
+  skills?: string[];
 }
 
 // Source: CONTENT_INVENTORY.md §6. Both entries have a verified title and
