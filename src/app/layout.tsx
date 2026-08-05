@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
+import { aboutContent } from "@/content/about";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,9 +16,40 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Keywords derived only from verified content already in src/content/about.ts
+// (specialties) plus the role terms in siteConfig.title/description.
+const keywords = Array.from(
+  new Set(["Platform Engineering", "AIOps", "MLOps", ...aboutContent.specialties]),
+);
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: siteConfig.title,
   description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  keywords,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  openGraph: {
+    type: "website",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
