@@ -1,3 +1,5 @@
+import { Hero } from "@/components/sections/Hero";
+
 export default function Home() {
-  return <section id="hero" aria-label="Hero" />;
+  return <Hero />;
 }
