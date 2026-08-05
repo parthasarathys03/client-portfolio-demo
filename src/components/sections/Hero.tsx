@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Section } from "@/components/layout/Section";
 import { heroContent } from "@/content/hero";
 import { aboutContent } from "@/content/about";
@@ -46,12 +47,40 @@ export function Hero() {
             </p>
           </div>
 
-          <div
-            aria-hidden
-            className="relative aspect-[6/5] w-full max-w-[625px] justify-self-center lg:mt-10 lg:justify-self-end"
-          >
-            <div className="absolute -inset-5 rounded-xl border border-border" />
-            <div className="relative h-full w-full rounded-xl border border-border bg-surface" />
+          <div className="relative aspect-[6/5] w-full max-w-[625px] justify-self-center rounded-xl bg-background lg:mt-10 lg:justify-self-end">
+            <div className="absolute inset-0 flex items-center justify-center">
+              {/*
+                The source PNG's circular portrait is inscribed in a larger
+                canvas with an opaque near-white margin (measured by pixel
+                scan: circle bounding box is x:89-613, y:107-631 inside a
+                696x757 canvas — a 524x524 square, off-center vertically).
+                object-fit (contain/cover) can't crop that margin away
+                exactly, so this wrapper is sized to the *measured* circle
+                diameter and the image is scaled/offset by the exact ratios
+                (696/524, 757/524, 89/524, 107/524) to land only the circle
+                inside it — then rounded-full + overflow-hidden clips to a
+                perfect circle. No border/shadow/extra frame.
+              */}
+              <div
+                className="relative overflow-hidden rounded-full"
+                style={{ height: "84%", width: "auto", aspectRatio: "1 / 1" }}
+              >
+                <Image
+                  src="/images/sarav-portrait.png"
+                  alt="Sarav Jagadeesan"
+                  width={696}
+                  height={757}
+                  priority
+                  className="absolute max-w-none"
+                  style={{
+                    width: "132.82%",
+                    height: "144.47%",
+                    top: "-20.42%",
+                    left: "-16.98%",
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

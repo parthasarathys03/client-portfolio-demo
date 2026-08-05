@@ -16,13 +16,11 @@ export interface ContactContent {
 // Contact.tsx only renders a link when its field is set. LinkedIn and the
 // site's own URL (siteConfig.url) are the only verified real links.
 //
-// `location` ("Pondicherry, India") was supplied directly by the requester
-// for this section, not found in sarav.ai/LinkedIn (those list Redwood
-// City, CA / San Francisco Bay Area) — flagging the discrepancy, kept as
-// given since it's a first-person personal detail, not a claim about
-// employers, projects, or metrics.
+// `location` was supplied directly by the requester for this section —
+// updated per their follow-up request to "San Francisco Bay Area", which
+// matches what sarav.ai/LinkedIn list.
 export const contactContent: ContactContent = {
   linkedin: "https://www.linkedin.com/in/saravananjagadeesan/",
   portfolioUrl: "https://sarav.ai",
-  location: "Pondicherry, India",
+  location: "San Francisco Bay Area",
 };
