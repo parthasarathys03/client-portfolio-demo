@@ -14,6 +14,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <Container
         as="nav"
+        size="2xl"
         aria-label="Primary"
         className="flex h-16 items-center justify-between"
       >
@@ -56,7 +57,7 @@ export function Header() {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden border-b border-border md:hidden"
           >
-            <Container as="ul" className="flex flex-col gap-1 py-4">
+            <Container as="ul" size="2xl" className="flex flex-col gap-1 py-4">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <a

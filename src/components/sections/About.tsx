@@ -70,7 +70,7 @@ export function About() {
           className="relative aspect-[4/5] w-full max-w-md scale-90 justify-self-center lg:max-w-none lg:justify-self-end"
         >
           <div className="absolute -inset-5 rounded-xl border border-border" />
-          <div className="relative h-full w-full rounded-xl border border-border" />
+          <div className="relative h-full w-full rounded-xl border border-border bg-background" />
         </div>
       </div>
     </Section>

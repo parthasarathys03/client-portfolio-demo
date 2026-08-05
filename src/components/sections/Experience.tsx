@@ -10,7 +10,9 @@ function ExperienceCard({ item, align }: { item: ExperienceItem; align: "left" |
         align === "right" ? "md:text-left" : "md:text-right",
       )}
     >
-      <p className="text-lg font-semibold leading-[1.25] text-foreground">{item.title}</p>
+      <h3 className="text-xl font-semibold leading-[1.25] text-foreground md:text-2xl">
+        {item.title}
+      </h3>
       {item.company && <p className="text-base text-foreground">{item.company}</p>}
       {item.location && (
         <p className="text-sm text-muted-foreground">{item.location}</p>
