@@ -9,11 +9,11 @@ export function Expertise() {
           Technical Expertise
         </h2>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
           {expertiseContent.map((group) => (
             <div
               key={group.category}
-              className="flex flex-col gap-4 rounded-lg border border-border p-6"
+              className="flex h-full flex-col gap-4 rounded-lg border border-border p-6"
             >
               <h3 className="text-xl font-semibold leading-[1.25] md:text-2xl">
                 {group.category}
