@@ -4,9 +4,22 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { Container } from "@/components/layout/Container";
-import { navItems } from "@/config/nav";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+const defaultNavItems: NavItem[] = [
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Certifications", href: "#certifications" },
+  { label: "Contact", href: "#contact" },
+];
 
 const initials = siteConfig.name
   .split(" ")
@@ -14,12 +27,12 @@ const initials = siteConfig.name
   .join("")
   .slice(0, 2);
 
-export function Header() {
+export function Header({ items = defaultNavItems }: { items?: NavItem[] }) {
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState(() => navItems[0]?.href.slice(1) ?? "");
+  const [activeId, setActiveId] = useState(() => items[0]?.href.slice(1) ?? "");
 
   useEffect(() => {
-    const sections = navItems
+    const sections = items
       .map((item) => document.getElementById(item.href.slice(1)))
       .filter((section): section is HTMLElement => section !== null);
 
@@ -40,7 +53,7 @@ export function Header() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [items]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
@@ -61,7 +74,7 @@ export function Header() {
         </a>
 
         <ul className="hidden items-center gap-6 md:-mt-[2px] md:flex">
-          {navItems.map((item, index) => {
+          {items.map((item, index) => {
             const isActive = activeId === item.href.slice(1);
             return (
               <li key={item.href}>
@@ -69,9 +82,6 @@ export function Header() {
                   href={item.href}
                   aria-current={isActive ? "true" : undefined}
                   onClick={(event) => {
-                    // Already at this section — skip the native anchor jump
-                    // so the sticky header offset can't nudge the scroll
-                    // position even by a few pixels.
                     if (isActive) event.preventDefault();
                   }}
                   className="group flex items-center gap-1.5 rounded-sm text-sm font-medium outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
@@ -117,7 +127,7 @@ export function Header() {
               className="overflow-hidden border-b border-border md:hidden"
             >
               <Container as="ul" size="2xl" className="flex flex-col gap-1 py-4">
-                {navItems.map((item, index) => (
+                {items.map((item, index) => (
                   <li key={item.href}>
                     <a
                       href={item.href}
