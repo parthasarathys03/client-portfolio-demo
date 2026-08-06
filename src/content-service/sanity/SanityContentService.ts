@@ -52,22 +52,40 @@ export class SanityContentService implements ContentService {
         return this.fallback.getVisibleSections();
       }
 
+      const defaultName = settings?.name || "Sarav Jagadeesan";
       const defaultTagline = settings?.tagline || "Expert in Platform Engineering | AIOPS | MLOPS";
+      const linkedinUrl = settings?.socials?.find((s: any) =>
+        (s.platform || s.name || "").toLowerCase().includes("linkedin")
+      )?.url;
 
       return homeDoc.sections
-        .map((sec: any, idx: number) => ({
-          id: sec._key || sec.type || `sec-${idx}`,
-          type: sec._type || sec.type,
-          title: sec.title || sec._type,
-          visible: sec.visible !== false,
-          order: idx + 1,
-          presentation: sec.presentation,
-          data: {
-            ...sec,
-            subheadline: sec.subheadline || defaultTagline,
-          },
-          schemaVersion: sec.schemaVersion || 1,
-        }))
+        .map((sec: any, idx: number) => {
+          const type = sec._type || sec.type;
+          let enrichedData = { ...sec };
+
+          if (type === "heroSection" || type === "hero") {
+            enrichedData.headline = sec.headline || `Hi, I am ${defaultName}`;
+            enrichedData.subheadline = sec.subheadline || defaultTagline;
+          } else if (type === "contactSection" || type === "contact") {
+            if (linkedinUrl && (!sec.socials || !sec.socials.linkedin)) {
+              enrichedData.socials = {
+                ...(sec.socials || {}),
+                linkedin: linkedinUrl,
+              };
+            }
+          }
+
+          return {
+            id: sec._key || type || `sec-${idx}`,
+            type,
+            title: sec.title || type,
+            visible: sec.visible !== false,
+            order: idx + 1,
+            presentation: sec.presentation,
+            data: enrichedData,
+            schemaVersion: sec.schemaVersion || 1,
+          };
+        })
         .filter((s: Section) => s.visible);
     } catch {
       return this.fallback.getVisibleSections();
