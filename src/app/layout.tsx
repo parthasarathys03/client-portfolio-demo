@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
 import { aboutContent } from "@/content/about";
 
@@ -23,8 +21,6 @@ const fraunces = Fraunces({
   axes: ["opsz", "SOFT"],
 });
 
-// Keywords derived only from verified content already in src/content/about.ts
-// (specialties) plus the role terms in siteConfig.title/description.
 const keywords = Array.from(
   new Set(["Platform Engineering", "AIOps", "MLOps", ...aboutContent.specialties]),
 );
@@ -65,19 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:rounded-md focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-        >
-          Skip to main content
-        </a>
-        <Header />
-        <main id="main-content" tabIndex={-1} className="flex-1">
-          {children}
-        </main>
-        <Footer />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
