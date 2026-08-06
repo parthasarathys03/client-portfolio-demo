@@ -16,7 +16,11 @@ export class SanityContentService implements ContentService {
 
   async getSiteSettings(): Promise<SiteSettings> {
     try {
-      const settings = await client.fetch(`*[_type == "siteSettings"][0]`);
+      const settings = await client.fetch(
+        `*[_type == "siteSettings"][0]`,
+        {},
+        { next: { tags: ["content", "siteSettings"] } }
+      );
       if (!settings) return this.fallback.getSiteSettings();
       return {
         name: settings.name || "Sarav Jagadeesan",
@@ -35,7 +39,11 @@ export class SanityContentService implements ContentService {
 
   async getVisibleSections(): Promise<Section[]> {
     try {
-      const homeDoc = await client.fetch(`*[_type == "homePage"][0]{ sections }`);
+      const homeDoc = await client.fetch(
+        `*[_type == "homePage"][0]{ sections }`,
+        {},
+        { next: { tags: ["content", "homePage"] } }
+      );
       if (!homeDoc || !homeDoc.sections || homeDoc.sections.length === 0) {
         return this.fallback.getVisibleSections();
       }
@@ -59,7 +67,11 @@ export class SanityContentService implements ContentService {
 
   async getProjects(): Promise<ProjectItem[]> {
     try {
-      const projects = await client.fetch(`*[_type == "project"] | order(order asc)`);
+      const projects = await client.fetch(
+        `*[_type == "project"] | order(order asc)`,
+        {},
+        { next: { tags: ["content", "project"] } }
+      );
       if (!projects || projects.length === 0) return this.fallback.getProjects();
       return projects.map((p: any, idx: number) => ({
         id: p._id || `project-${idx}`,
@@ -78,7 +90,11 @@ export class SanityContentService implements ContentService {
 
   async getExperiences(): Promise<ExperienceItem[]> {
     try {
-      const exps = await client.fetch(`*[_type == "experienceEntry"] | order(order asc)`);
+      const exps = await client.fetch(
+        `*[_type == "experienceEntry"] | order(order asc)`,
+        {},
+        { next: { tags: ["content", "experienceEntry"] } }
+      );
       if (!exps || exps.length === 0) return this.fallback.getExperiences();
       return exps.map((e: any, idx: number) => ({
         id: e._id || `exp-${idx}`,
@@ -96,7 +112,11 @@ export class SanityContentService implements ContentService {
 
   async getCertifications(): Promise<CertificationItem[]> {
     try {
-      const certs = await client.fetch(`*[_type == "certification"] | order(order asc)`);
+      const certs = await client.fetch(
+        `*[_type == "certification"] | order(order asc)`,
+        {},
+        { next: { tags: ["content", "certification"] } }
+      );
       if (!certs || certs.length === 0) return this.fallback.getCertifications();
       return certs.map((c: any, idx: number) => ({
         id: c._id || `cert-${idx}`,
@@ -113,7 +133,11 @@ export class SanityContentService implements ContentService {
 
   async getExpertiseCategories(): Promise<ExpertiseCategory[]> {
     try {
-      const cats = await client.fetch(`*[_type == "expertiseCategory"] | order(order asc)`);
+      const cats = await client.fetch(
+        `*[_type == "expertiseCategory"] | order(order asc)`,
+        {},
+        { next: { tags: ["content", "expertiseCategory"] } }
+      );
       if (!cats || cats.length === 0) return this.fallback.getExpertiseCategories();
       return cats.map((c: any, idx: number) => ({
         id: c._id || `cat-${idx}`,
