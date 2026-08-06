@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Content-Driven Portfolio CMS (`sarav-ai-v2`)
 
-## Getting Started
+An enterprise-grade, content-driven Portfolio application built with **Next.js 16 (App Router & Turbopack)** and **Sanity CMS Cloud**.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Live URLs & Access
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🖥️ **Live Portfolio Website:** [https://sarav-portfolio.netlify.app](https://sarav-portfolio.netlify.app)
+- ⚙️ **Sanity Studio Admin:** [https://sarav-portfolio.netlify.app/studio](https://sarav-portfolio.netlify.app/studio)
+- 🩺 **System Health Monitor:** [https://sarav-portfolio.netlify.app/admin/system](https://sarav-portfolio.netlify.app/admin/system)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📚 Documentation Suite
 
-## Learn More
+All system documentation is co-located in the [`docs/`](docs/) directory:
 
-To learn more about Next.js, take a look at the following resources:
+- 📖 [**`docs/USER_GUIDE.md`**](docs/USER_GUIDE.md) — **Sanity CMS User Guide & Content Management Manual** (How to edit, add, update content & resume PDF).
+- 🏗️ [**`docs/ARCHITECTURE.md`**](docs/ARCHITECTURE.md) — System design, domain models, and `ContentService` abstraction.
+- 🧪 [**`docs/REGRESSION_TESTING.md`**](docs/REGRESSION_TESTING.md) — 40-Point Test Matrix & Release Checklist.
+- 📜 [**`docs/PRODUCTION_SIGNOFF.md`**](docs/PRODUCTION_SIGNOFF.md) — Production Release `v1.0.0` Sign-off & audit trail.
+- 📝 [**`docs/RELEASE_NOTES.md`**](docs/RELEASE_NOTES.md) — Release notes for `v1.0.0`.
+- 🗺️ [**`docs/ROADMAP.md`**](docs/ROADMAP.md) — Feature Roadmap (`v1.1.0`, `v1.2.0`, `v2.0.0`).
+- 🚀 [**`docs/DEPLOYMENT.md`**](docs/DEPLOYMENT.md) — Netlify deployment, Sanity CORS, and webhook setup.
+- 🛡️ [**`docs/SECURITY.md`**](docs/SECURITY.md) — Security protocols, token management, and secret protection.
+- 🤝 [**`docs/CONTRIBUTING.md`**](docs/CONTRIBUTING.md) — Contribution guidelines, local setup, and PR checklist.
+- 📜 [**`docs/CHANGELOG.md`**](docs/CHANGELOG.md) — Versioned changelog.
+- 🛠️ [**`docs/TROUBLESHOOTING.md`**](docs/TROUBLESHOOTING.md) — Frequently asked questions & quick fixes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Quick Start for Developers
 
-## Deploy on Vercel
+1. **Clone repository:**
+   ```bash
+   git clone https://github.com/parthasarathys03/client-portfolio-demo.git
+   cd sarav-ai-v2
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Setup environment variables:**
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Run local development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) for local website or [http://localhost:3000/studio](http://localhost:3000/studio) for local Sanity Studio.
