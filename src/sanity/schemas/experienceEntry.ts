@@ -3,6 +3,7 @@ export const experienceEntrySchema = {
   title: "Experience Entries",
   type: "document",
   fields: [
+    { name: "schemaVersion", title: "Schema Version", type: "number", initialValue: 1, readOnly: true },
     { name: "title", title: "Role Title", type: "string" },
     { name: "company", title: "Company Name", type: "string" },
     { name: "order", title: "Order Number", type: "number" },

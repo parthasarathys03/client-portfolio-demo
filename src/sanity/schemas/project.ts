@@ -3,6 +3,7 @@ export const projectSchema = {
   title: "Projects",
   type: "document",
   fields: [
+    { name: "schemaVersion", title: "Schema Version", type: "number", initialValue: 1, readOnly: true },
     { name: "title", title: "Project Title", type: "string" },
     { name: "order", title: "Order Number", type: "number" },
     { name: "year", title: "Year", type: "string" },
