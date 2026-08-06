@@ -39,14 +39,20 @@ export class SanityContentService implements ContentService {
 
   async getVisibleSections(): Promise<Section[]> {
     try {
-      const homeDoc = await client.fetch(
-        `*[_type == "homePage"][0]{ sections }`,
-        {},
-        { next: { tags: ["content", "homePage"] } }
-      );
+      const [homeDoc, settings] = await Promise.all([
+        client.fetch(
+          `*[_type == "homePage"][0]{ sections }`,
+          {},
+          { next: { tags: ["content", "homePage"] } }
+        ),
+        this.getSiteSettings().catch(() => null),
+      ]);
+
       if (!homeDoc || !homeDoc.sections || homeDoc.sections.length === 0) {
         return this.fallback.getVisibleSections();
       }
+
+      const defaultTagline = settings?.tagline || "Expert in Platform Engineering | AIOPS | MLOPS";
 
       return homeDoc.sections
         .map((sec: any, idx: number) => ({
@@ -56,7 +62,10 @@ export class SanityContentService implements ContentService {
           visible: sec.visible !== false,
           order: idx + 1,
           presentation: sec.presentation,
-          data: sec,
+          data: {
+            ...sec,
+            subheadline: sec.subheadline || defaultTagline,
+          },
           schemaVersion: sec.schemaVersion || 1,
         }))
         .filter((s: Section) => s.visible);
