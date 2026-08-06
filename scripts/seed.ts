@@ -40,7 +40,7 @@ const client = createClient({
 });
 
 async function seed() {
-  console.log("Seeding Sanity CMS dataset...");
+  console.log("Seeding Sanity CMS dataset and collection documents...");
 
   // 1. Site Settings Document
   await client.createOrReplace({
@@ -156,7 +156,73 @@ async function seed() {
     ],
   });
 
-  console.log("Seeding completed successfully!");
+  // 3. Standalone Projects Collection Documents
+  for (let idx = 0; idx < projectsContent.length; idx++) {
+    const p = projectsContent[idx];
+    await client.createOrReplace({
+      _id: `project-${idx + 1}`,
+      _type: "project",
+      schemaVersion: 1,
+      title: p.title,
+      description: p.description,
+      technologies: p.technologies || p.techStack || [],
+      order: idx + 1,
+      featured: true,
+    });
+  }
+
+  // 4. Standalone Experience Collection Documents
+  for (let idx = 0; idx < experienceContent.length; idx++) {
+    const e = experienceContent[idx];
+    await client.createOrReplace({
+      _id: `experience-${idx + 1}`,
+      _type: "experienceEntry",
+      schemaVersion: 1,
+      title: e.title,
+      company: e.company,
+      location: e.location,
+      startDate: e.startDate,
+      endDate: e.endDate,
+      duration: e.duration,
+      order: e.order || idx + 1,
+    });
+  }
+
+  // 5. Standalone Certifications Collection Documents
+  for (let idx = 0; idx < certificationsContent.length; idx++) {
+    const c = certificationsContent[idx];
+    await client.createOrReplace({
+      _id: `certification-${idx + 1}`,
+      _type: "certification",
+      schemaVersion: 1,
+      title: c.title,
+      issuer: c.issuer,
+      issueDate: c.issueDate,
+      credentialId: c.credentialId,
+      credentialUrl: c.credentialUrl,
+      order: idx + 1,
+    });
+  }
+
+  // 6. Standalone Skills / Expertise Collection Documents
+  const skillCategories = [
+    { category: "Cloud & Infrastructure", skills: ["AWS", "Azure", "GCP", "Kubernetes", "Terraform"] },
+    { category: "MLOps & AIOps", skills: ["Kubeflow", "MLflow", "Prometheus", "Grafana", "Python"] },
+    { category: "CI/CD & DevOps", skills: ["GitHub Actions", "ArgoCD", "Docker", "Helm", "Bash"] },
+  ];
+  for (let idx = 0; idx < skillCategories.length; idx++) {
+    const s = skillCategories[idx];
+    await client.createOrReplace({
+      _id: `skill-category-${idx + 1}`,
+      _type: "expertiseCategory",
+      schemaVersion: 1,
+      category: s.category,
+      technologies: s.skills,
+      order: idx + 1,
+    });
+  }
+
+  console.log("Seeding completed successfully with all collection documents!");
 }
 
 seed().catch((err) => {
